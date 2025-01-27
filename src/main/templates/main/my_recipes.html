@@ -8,6 +8,13 @@
 
 {% block content %}
 <h1 class="display-1">Mes recettes</h1>
+{% if messages %}
+<div class="alert alert-info">
+    {% for message in messages %}
+        <p>{{ message }}</p>
+    {% endfor %}
+</div>
+{% endif %}
 <a href="{% url 'create_recipe' %}">Créer une recette</a>
 <table class="table table-striped">
     <thead>
@@ -41,7 +48,7 @@
                 <a href="{% url 'view_recipe' recipe.id %}" class="btn btn-success">Voir</a>
             </td>
             <td>
-                <form action="{% url 'delete_recipe' %}" method="POST">
+                <form action="{% url 'delete_recipe' recipe.id %}" method="POST">
                     {% csrf_token %}
                     <button type="submit" class="btn btn-danger" onclick="return confirm('Êtes-vous sûr de vouloir supprimer cette recette ?')">Supprimer</button>
                 </form>

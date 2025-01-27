@@ -2,6 +2,8 @@ from django.shortcuts import render, redirect, get_object_or_404
 from .forms import RecipeForm
 from .models import Recipe
 from django.contrib.auth.decorators import login_required
+from django.contrib import messages
+
 
 
 def home(request):
@@ -23,7 +25,7 @@ def create_recipe(request):
         form = RecipeForm(request.POST, request.FILES, user=request.user)
         if form.is_valid():
             form.save()
-            return redirect('my_recipes')  # Rediriger vers une page de liste des recettes ou une autre vue
+            return redirect('my_recipes')
     else:
         form = RecipeForm(user=request.user)
 
@@ -37,5 +39,12 @@ def view_recipe(request, id):
 
 
 @login_required()
-def delete_recipe(request):
-    return render(request, "main/delete_recipe.html")
+def delete_recipe(request, id):
+    recipe = get_object_or_404(Recipe, id=id)
+
+    if request.method == "POST":
+        recipe.delete()
+        messages.success(request, f"La recette '{recipe.name}' a été supprimée avec succès.")
+        return redirect('my_recipes')
+
+    return render(request, "main/delete_recipe.html", {"recipe": recipe})

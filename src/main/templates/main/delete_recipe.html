@@ -7,11 +7,19 @@
 {% endblock %}
 
 {% block content %}
-<h1 class="display-1">Suppression d'une recette</h1>
+<h1 class="display-4 text-center">Supprimer la recette</h1>
     <a href="{% url 'my_recipes' %}">Mes recettes</a>
-    <a href="{% url 'create_recipe' %}">Créer une recette</a>
-    <a href="{% url 'modify_recipe' %}">Modifier recette</a>
-    <a href="{% url 'delete_recipe' %}">Supprimer recette</a>
+
+<div class="container mt-5">
+    <p>Êtes-vous sûr de vouloir supprimer la recette <strong>{{ recipe.name }}</strong> ?</p>
+
+    <form method="POST" class="mt-4">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-danger">Confirmer la suppression</button>
+        <a href="{% url 'my_recipes' %}" class="btn btn-secondary">Annuler</a>
+    </form>
+</div>
+
 
 <p>Ceci est la page pour suppression de recette.</p>
 {% endblock %}
