@@ -1,0 +1,20 @@
+{% extends 'main/base.html' %}
+
+{% block title %}Page d'Accueil{% endblock %}
+{% block description %}Testdescription{% endblock %}
+{% block javascript %}
+
+{% endblock %}
+
+{% block content %}
+<h1 class="display-1">Création d'une recette</h1>
+    <a href="{% url 'my_recipes' %}">Mes recettes</a>
+
+
+<form method="POST" enctype="multipart/form-data" class="container mt-5">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn btn-primary">Créer la recette</button>
+    </form>
+
+{% endblock %}

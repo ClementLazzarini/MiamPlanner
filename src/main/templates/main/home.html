@@ -1,0 +1,14 @@
+{% extends 'main/base.html' %}
+
+{% block title %}Page d'Accueil{% endblock %}
+{% block description %}Testdescription{% endblock %}
+{% block javascript %}
+
+{% endblock %}
+
+{% block content %}
+<h1 class="display-1">Bienvenue sur notre site !</h1>
+    <a href="{% url 'my_recipes' %}">Mes recettes</a>
+
+<p>Ceci est la page d'accueil de votre projet.</p>
+{% endblock %}

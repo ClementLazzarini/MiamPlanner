@@ -1,0 +1,16 @@
+{% extends 'main/base.html' %}
+{% load static %}
+
+{% block title %}Suppression du compte{% endblock %}
+{% block description %}Supprimez votre compte et vos données associées de manière sécurisée. Cette page vous guide à travers le processus de suppression de compte.{% endblock %}
+
+{% block content %}
+<h2>Supprimer votre compte</h2>
+  <p>Êtes-vous sûr de vouloir supprimer votre compte ? Cette action est irréversible.</p>
+
+  <form method="post">
+      {% csrf_token %}
+      <button type="submit">Confirmer la suppression</button>
+      <a href="{% url 'home' %}">Annuler</a>
+  </form>
+{% endblock %}

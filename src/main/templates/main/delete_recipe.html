@@ -1,0 +1,17 @@
+{% extends 'main/base.html' %}
+
+{% block title %}Page d'Accueil{% endblock %}
+{% block description %}Testdescription{% endblock %}
+{% block javascript %}
+
+{% endblock %}
+
+{% block content %}
+<h1 class="display-1">Suppression d'une recette</h1>
+    <a href="{% url 'my_recipes' %}">Mes recettes</a>
+    <a href="{% url 'create_recipe' %}">Créer une recette</a>
+    <a href="{% url 'modify_recipe' %}">Modifier recette</a>
+    <a href="{% url 'delete_recipe' %}">Supprimer recette</a>
+
+<p>Ceci est la page pour suppression de recette.</p>
+{% endblock %}
