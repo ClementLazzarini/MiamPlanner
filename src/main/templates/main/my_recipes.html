@@ -8,14 +8,9 @@
 
 {% block content %}
 <h1 class="display-1">Mes recettes</h1>
-{% if messages %}
-<div class="alert alert-info">
-    {% for message in messages %}
-        <p>{{ message }}</p>
-    {% endfor %}
+<div class="mt-4">
+    <a href="{% url 'create_recipe' %}" class="btn btn-primary ms-4">Créer une recette</a>
 </div>
-{% endif %}
-<a href="{% url 'create_recipe' %}">Créer une recette</a>
 <table class="table table-striped">
     <thead>
         <tr>

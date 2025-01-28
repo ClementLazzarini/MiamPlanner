@@ -1,7 +1,5 @@
 from django import forms
-from .models import Recipe, Ingredient, Season
-from django.contrib.auth import get_user_model
-from django.conf import settings
+from .models import Recipe
 
 
 class RecipeForm(forms.ModelForm):
@@ -32,63 +30,39 @@ class RecipeForm(forms.ModelForm):
             'utensils': 'Ustensiles nécessaires',
             'ingredients': 'Ingrédients',
         }
+        widgets = {
+            'is_easy': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
+            'is_private': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
+            'is_veggie': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
+            'seasons': forms.SelectMultiple(attrs={'class': 'form-select'}),
+        }
 
-    # Custom validation for creator to always assign the logged-in user
     def __init__(self, *args, **kwargs):
         user = kwargs.pop('user', None)
         super().__init__(*args, **kwargs)
+
         if user:
             self.fields['creator'].initial = user
             self.fields['creator'].widget = forms.HiddenInput()
 
         # Appliquer les classes Bootstrap aux champs
-        self.fields['name'].widget.attrs.update({
-            'class': 'form-control',
-            'placeholder': 'Entrez le nom de la recette',
-        })
-        self.fields['cooking_time'].widget.attrs.update({
-            'class': 'form-control',
-            'placeholder': 'Temps de cuisson en minutes',
-        })
-        self.fields['servings'].widget.attrs.update({
-            'class': 'form-control',
-            'placeholder': 'Nombre de portions',
-        })
-        self.fields['seasons'].widget.attrs.update({
-            'class': 'form-select',
-        })
-        self.fields['is_easy'].widget.attrs.update({
-            'class': 'form-check-input',
-        })
-        self.fields['steps'].widget.attrs.update({
-            'class': 'form-control',
-            'rows': 4,
-            'placeholder': 'Décrivez les étapes de préparation',
-        })
-        self.fields['utensils'].widget.attrs.update({
-            'class': 'form-control',
-            'placeholder': 'Ustensiles nécessaires',
-        })
-        self.fields['ingredients'].widget.attrs.update({
-            'class': 'form-control',
-            'rows': 4,
-            'placeholder': 'Liste des ingrédients',
-        })
-        self.fields['is_private'].widget.attrs.update({
-            'class': 'form-check-input',
-        })
-        self.fields['is_veggie'].widget.attrs.update({
-            'class': 'form-check-input',
-        })
-
-        # Erreurs personnalisées
-        self.fields['name'].error_messages = {
-            'required': 'Le nom de la recette est obligatoire.',
+        field_classes = {
+            'name': 'form-control',
+            'cooking_time': 'form-control',
+            'servings': 'form-control',
+            'steps': 'form-control',
+            'utensils': 'form-control',
+            'ingredients': 'form-control',
         }
 
-    # Custom validation for rating
-    def clean_rating(self):
-        rating = self.cleaned_data.get('rating')
-        if rating and not (1 <= rating <= 5):
-            raise forms.ValidationError("La note doit être entre 1 et 5.")
-        return rating
+        for field, css_class in field_classes.items():
+            self.fields[field].widget.attrs.update({'class': css_class})
+
+        # Ajout des placeholders
+        self.fields['name'].widget.attrs.update({'placeholder': 'Nom de la recette'})
+        self.fields['cooking_time'].widget.attrs.update({'placeholder': 'Ex: 30 minutes'})
+        self.fields['servings'].widget.attrs.update({'placeholder': 'Ex: 4 personnes'})
+        self.fields['steps'].widget.attrs.update({'placeholder': 'Décrivez les étapes ici...', 'rows': 5})
+        self.fields['utensils'].widget.attrs.update({'placeholder': 'Listez les ustensiles nécessaires'})
+        self.fields['ingredients'].widget.attrs.update({'placeholder': 'Listez les ingrédients...', 'rows': 4})
+

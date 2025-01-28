@@ -7,14 +7,14 @@
 {% endblock %}
 
 {% block content %}
-<h1 class="display-1">Création d'une recette</h1>
-    <a href="{% url 'my_recipes' %}">Mes recettes</a>
-
-
-<form method="POST" enctype="multipart/form-data" class="container mt-5">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit" class="btn btn-primary">Créer la recette</button>
-    </form>
-
+<div class="container mt-5 row justify-content-center">
+    <h1 class="text-center mb-4">Créer une Recette</h1>
+    <div class="card shadow p-4 col-md-10 col-lg-8">
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit" class="btn btn-primary w-100 mt-3">Enregistrer la Recette</button>
+        </form>
+    </div>
+</div>
 {% endblock %}
