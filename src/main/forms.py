@@ -13,7 +13,6 @@ class RecipeForm(forms.ModelForm):
             'is_easy',
             'steps',
             'utensils',
-            'creator',
             'is_private',
             'ingredients',
             'is_veggie',

@@ -41,5 +41,25 @@
             </div>
         </div>
     </div>
+    <div class="container mt-5">
+    <h2 class="text-center fw-bold">Recettes à découvrir</h2>
+    <div class="row justify-content-center">
+        {% for recipe in recipes %}
+        <div class="col-md-3">
+            <div class="card shadow-sm p-3">
+                <img src="{{ recipe.image.url }}" class="card-img-top" alt="{{ recipe.titre }}">
+                <div class="card-body text-center">
+                    <h5 class="card-title">{{ recipe.name }}</h5>
+                    <p class="card-text text-muted">{{ recipe.description|truncatewords:10 }}</p>
+                    <a href="{% url 'view_recipe' recipe.id %}" class="btn btn-sm btn-primary">Voir la recette</a>
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <p class="text-center text-muted">Aucune recette à découvrir pour le moment.</p>
+        {% endfor %}
+    </div>
+</div>
+
 </div>
 {% endblock %}

@@ -8,12 +8,12 @@
 
 {% block content %}
 <div class="container mt-5 row justify-content-center">
-    <h1 class="text-center mb-4">Créer une Recette</h1>
+    <h1 class="text-center mb-4">{% if recipe %}Modifier{% else %}Créer{% endif %} une recette</h1>
     <div class="card shadow p-4 col-md-10 col-lg-8">
         <form method="post" enctype="multipart/form-data">
             {% csrf_token %}
             {{ form.as_p }}
-            <button type="submit" class="btn btn-primary w-100 mt-3">Enregistrer la Recette</button>
+            <button type="submit" class="btn btn-primary w-100 mt-3">{% if recipe %}Mettre à jour{% else %}Créer{% endif %}</button>
         </form>
     </div>
 </div>

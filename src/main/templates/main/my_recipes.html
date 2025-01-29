@@ -15,9 +15,8 @@
     <thead>
         <tr>
             <th scope="col">Nom de la recette</th>
-            <th scope="col">Ingrédients</th>
-            <th scope="col">Temps de cuisson</th>
             <th scope="col">Note</th>
+            <th scope="col">Modifier</th>
             <th scope="col">Voir</th>
             <th scope="col">Supprimer</th>
         </tr>
@@ -27,17 +26,14 @@
         <tr>
             <td>{{ recipe.name }}</td>
             <td>
-                {% for ingredient in recipe.ingredients.all %}
-                    {{ ingredient.name }}{% if not forloop.last %}, {% endif %}
-                {% endfor %}
-            </td>
-            <td>{{ recipe.cooking_time }} min</td>
-            <td>
                 {% if recipe.rating %}
                     {{ recipe.rating }}/5
                 {% else %}
                     Non notée
                 {% endif %}
+            </td>
+            <td>
+                <a href="{% url 'edit_recipe' recipe.id %}" class="btn btn-warning">Modifier</a>
             </td>
             <td>
                 <a href="{% url 'view_recipe' recipe.id %}" class="btn btn-success">Voir</a>
