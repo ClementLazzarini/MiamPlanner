@@ -38,6 +38,7 @@ class Recipe(models.Model):
         help_text="Identifiant unique pour lier la recette à une BDD générale"
     )
     name = models.CharField(max_length=200)
+    image = models.ImageField(upload_to='ingredients/', null=True, blank=True)
     cooking_time = models.PositiveIntegerField(help_text="Temps de cuisson en minutes")
     is_veggie = models.BooleanField(default=False)
     servings = models.PositiveIntegerField()
@@ -49,7 +50,7 @@ class Recipe(models.Model):
         help_text="Saisons associées à la recette"
     )
     is_easy = models.BooleanField(default=False)
-    steps = models.TextField()
+    steps = models.TextField(default="False")
     utensils = models.TextField()
     rating = models.PositiveSmallIntegerField(
         null=True,

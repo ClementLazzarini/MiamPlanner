@@ -47,7 +47,6 @@
         {% for recipe in recipes %}
         <div class="col-md-3">
             <div class="card shadow-sm p-3">
-                <img src="{{ recipe.image.url }}" class="card-img-top" alt="{{ recipe.titre }}">
                 <div class="card-body text-center">
                     <h5 class="card-title">{{ recipe.name }}</h5>
                     <p class="card-text text-muted">{{ recipe.description|truncatewords:10 }}</p>
