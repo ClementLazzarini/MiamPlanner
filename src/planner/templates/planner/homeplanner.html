@@ -1,0 +1,64 @@
+{% extends 'main/base.html' %}
+
+{% block title %}Page d'Accueil{% endblock %}
+{% block description %}Testdescription{% endblock %}
+{% block javascript %}
+
+{% endblock %}
+
+{% block content %}
+<div class="container py-5 text-center">
+    <h1 class="display-3 fw-bold text-primary mb-4">Bienvenue sur notre site !</h1>
+    <p class="lead text-muted mb-4">Découvrez et gérez vos recettes préférées en toute simplicité.</p>
+    <a href="{% url 'my_recipes' %}" class="btn btn-primary btn-lg shadow-sm">Voir Mes Recettes</a>
+
+    <div class="row mt-5 gap-4 justify-content-center">
+        <div class="col-md-4">
+            <div class="card shadow-sm p-4">
+                <div class="card-body text-center">
+                    <h5 class="card-title fw-bold">Créer une nouvelle recette</h5>
+                    <p class="card-text">Ajoutez vos idées culinaires et enrichissez votre collection.</p>
+                    <a href="{% url 'create_recipe' %}" class="btn btn-outline-primary btn-hover">Créer une recette</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card shadow-sm p-4">
+                <div class="card-body text-center">
+                    <h5 class="card-title fw-bold">Modifier vos recettes</h5>
+                    <p class="card-text">Personnalisez ou améliorez vos recettes existantes.</p>
+                    <a href="{% url 'my_recipes' %}" class="btn btn-outline-warning btn-hover">Modifier une recette</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card shadow-sm p-4">
+                <div class="card-body text-center">
+                    <h5 class="card-title fw-bold">Supprimer une recette</h5>
+                    <p class="card-text">Supprimez les recettes dont vous n'avez plus besoin.</p>
+                    <a href="{% url 'my_recipes' %}" class="btn btn-outline-danger btn-hover">Supprimer une recette</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container mt-5">
+    <h2 class="text-center fw-bold">Recettes à découvrir</h2>
+    <div class="row justify-content-center">
+        {% for recipe in recipes %}
+        <div class="col-md-3">
+            <div class="card shadow-sm p-3">
+                <div class="card-body text-center">
+                    <h5 class="card-title">{{ recipe.name }}</h5>
+                    <p class="card-text text-muted">{{ recipe.description|truncatewords:10 }}</p>
+                    <a href="{% url 'view_recipe' recipe.id %}" class="btn btn-sm btn-primary">Voir la recette</a>
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <p class="text-center text-muted">Aucune recette à découvrir pour le moment.</p>
+        {% endfor %}
+    </div>
+</div>
+
+</div>
+{% endblock %}

@@ -11,6 +11,13 @@ SEASON_CHOICES = [
     ('Automne', 'Automne')
 ]
 
+# Définir les choix pour la saison
+CATEGORY_CHOICES = [
+    ('Entrée', 'Entrée'),
+    ('Plat Principal', 'Plat Principal'),
+    ('Dessert', 'Dessert')
+]
+
 
 class Ingredient(models.Model):
     name = models.CharField(max_length=100)
@@ -38,8 +45,24 @@ class Recipe(models.Model):
         help_text="Identifiant unique pour lier la recette à une BDD générale"
     )
     name = models.CharField(max_length=200)
-    image = models.ImageField(upload_to='ingredients/', null=True, blank=True)
-    cooking_time = models.PositiveIntegerField(help_text="Temps de cuisson en minutes")
+    category = models.CharField(
+        max_length=20,
+        choices=CATEGORY_CHOICES,
+        null=True,
+        blank=True
+    )
+    image = models.ImageField(null=True, blank=True)
+    difficulty = models.PositiveSmallIntegerField(
+        null=True,
+        blank=True,
+        help_text="Note entre 1 et 5",
+        validators=[
+            MinValueValidator(1),
+            MaxValueValidator(5)
+        ]
+    )
+    preparation_time = models.PositiveIntegerField(help_text="Temps de cuisson en minutes", default=0)
+    cooking_time = models.PositiveIntegerField(help_text="Temps de cuisson en minutes", default=0)
     is_veggie = models.BooleanField(default=False)
     servings = models.PositiveIntegerField()
     # Gestion de plusieurs saisons

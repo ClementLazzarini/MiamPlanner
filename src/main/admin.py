@@ -26,8 +26,8 @@ class RecipeAdmin(admin.ModelAdmin):
     filter_horizontal = ('ingredients',)  # Améliore l'interface pour les relations ManyToMany
 
     fieldsets = (
-        (None, {
-            'fields': ('name', 'creator', 'cooking_time', 'servings', 'is_veggie', 'is_easy', 'rating', 'is_private')
+        ('Informations Générale', {
+            'fields': ('name', 'category', 'image', 'creator', 'cooking_time', 'servings', 'is_veggie', 'is_easy', 'rating', 'is_private')
         }),
         ("Saisonnalité et Ingrédients", {
             'fields': ('seasons', 'ingredients')

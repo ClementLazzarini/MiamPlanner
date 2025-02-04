@@ -7,6 +7,10 @@ class RecipeForm(forms.ModelForm):
         model = Recipe
         fields = [
             'name',
+            'category',
+            'image',
+            'difficulty',
+            'preparation_time',
             'cooking_time',
             'servings',
             'seasons',
@@ -19,6 +23,10 @@ class RecipeForm(forms.ModelForm):
         ]
         labels = {
             'name': 'Nom de la recette',
+            'category': 'Catégorie',
+            'image': 'Image',
+            'difficulty': 'Difficulté',
+            'preparation_time': 'Temps de préparation (en minutes)',
             'cooking_time': 'Temps de cuisson (en minutes)',
             'is_veggie': 'Plat végétarien',
             'servings': 'Nombre de portions',
@@ -30,6 +38,7 @@ class RecipeForm(forms.ModelForm):
             'ingredients': 'Ingrédients',
         }
         widgets = {
+            'category': forms.Select(attrs={'class': 'form-select'}),
             'is_easy': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
             'is_private': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
             'is_veggie': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
@@ -47,6 +56,7 @@ class RecipeForm(forms.ModelForm):
         # Appliquer les classes Bootstrap aux champs
         field_classes = {
             'name': 'form-control',
+            'preparation_time': 'form-control',
             'cooking_time': 'form-control',
             'servings': 'form-control',
             'steps': 'form-control',
@@ -59,6 +69,7 @@ class RecipeForm(forms.ModelForm):
 
         # Ajout des placeholders
         self.fields['name'].widget.attrs.update({'placeholder': 'Nom de la recette'})
+        self.fields['cooking_time'].widget.attrs.update({'placeholder': 'Ex: 10 minutes'})
         self.fields['cooking_time'].widget.attrs.update({'placeholder': 'Ex: 30 minutes'})
         self.fields['servings'].widget.attrs.update({'placeholder': 'Ex: 4 personnes'})
         self.fields['steps'].widget.attrs.update({'placeholder': 'Décrivez les étapes ici...', 'rows': 5})

@@ -31,7 +31,6 @@ def create_or_edit_recipe(request, id=None):
     - Si recipe_id est fourni, on modifie une recette existante.
     - Sinon, on crée une nouvelle recette.
     """
-    print('passe la')
     # Récupérer la recette si l'ID est fourni, sinon None
     recipe = get_object_or_404(Recipe, id=id) if id else None
 

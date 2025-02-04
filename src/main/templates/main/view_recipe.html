@@ -1,48 +1,74 @@
 {% extends 'main/base.html' %}
 
-{% block title %}Page d'Accueil{% endblock %}
-{% block description %}Testdescription{% endblock %}
-{% block javascript %}
-
-{% endblock %}
+{% block title %}{{ recipe.name }}{% endblock %}
+{% block description %}Recette de {{ recipe.name }}{% endblock %}
 
 {% block content %}
-<div class="mt-4">
-    <a href="{% url 'my_recipes' %}" class="btn btn-primary ms-4">Mes recettes</a>
-</div>
-
 <div class="container py-5">
     <div class="row justify-content-center">
         <div class="col-md-10 col-lg-8">
             <div class="card shadow-lg p-4">
-                <h1 class="display-4 text-center">{{ recipe.name }}</h1>
-                <h3>Détails de la recette</h3>
-                <ul class="list-group">
-                    <li class="list-group-item"><strong>Nom :</strong> {{ recipe.name }}</li>
-                    <li class="list-group-item"><strong>Temps de cuisson :</strong> {{ recipe.cooking_time }} minutes</li>
-                    <li class="list-group-item"><strong>Nombre de portions :</strong> {{ recipe.servings }}</li>
-                    <li class="list-group-item"><strong>Végétarien :</strong> {{ recipe.is_veggie|yesno:"Oui,Non" }}</li>
-                    <li class="list-group-item"><strong>Saisons :</strong>
-                        {% for season in recipe.seasons.all %}
-                            {{ season.name }}{% if not forloop.last %}, {% endif %}
-                        {% endfor %}
-                    </li>
-                    <li class="list-group-item"><strong>Facile :</strong> {{ recipe.is_easy|yesno:"Oui,Non" }}</li>
-                    <li class="list-group-item"><strong>Ustensiles :</strong> {{ recipe.utensils }}</li>
-                    <li class="list-group-item"><strong>Note :</strong> {{ recipe.rating }}</li>
-                    <li class="list-group-item"><strong>Étapes :</strong> {{ recipe.steps }}</li>
-                    <li class="list-group-item"><strong>Ingrédients :</strong>
-                        <ul>
+
+                <!-- Étiquette Recette -->
+                <div class="text-center">
+                    <span class="badge bg-dark text-white py-2 px-3 fs-5">{{ recipe.category }}</span>
+                </div>
+
+                <!-- Image de la recette -->
+                <div class="text-center">
+                    <img src="{{ recipe.image.url }}" alt="{{ recipe.name }}" class="img-fluid rounded shadow-sm">
+                </div>
+
+                <!-- Informations principales -->
+                <div class="row text-center bg-light mt-4 py-3 rounded">
+                    <div class="col">
+                        <h6 class="text-uppercase">Difficulté</h6>
+                        <p class="fw-bold text-primary">{{ recipe.difficulty }}/5</p>
+                    </div>
+                    <div class="col">
+                        <h6 class="text-uppercase">Préparation</h6>
+                        <p class="fw-bold text-primary">{{ recipe.preparation_time }} min</p>
+                    </div>
+                    <div class="col">
+                        <h6 class="text-uppercase">Cuisson</h6>
+                        <p class="fw-bold text-primary">{{ recipe.cooking_time }} min</p>
+                    </div>
+                    <div class="col">
+                        <h6 class="text-uppercase">Total</h6>
+                        <p class="fw-bold text-primary">{{ recipe.preparation_time|add:recipe.cooking_time }} min</p>
+                    </div>
+                </div>
+
+                <!-- Section Ingrédients et Préparation -->
+                <div class="row mt-4">
+
+                    <!-- Ingrédients -->
+                    <div class="col-md-6">
+                        <h3 class="fw-bold text-center">🛒 Ingrédients</h3>
+                        <ul class="list-group">
                             {% for ingredient in recipe.ingredients.all %}
-                                <li>{{ ingredient.name }}</li>
+                                <li class="list-group-item">{{ ingredient.name }}</li>
                             {% endfor %}
                         </ul>
-                    </li>
-                    <li class="list-group-item"><strong>Privé :</strong> {{ recipe.is_private|yesno:"Oui,Non" }}</li>
-                </ul>
+                    </div>
+
+                    <!-- Préparation -->
+                    <div class="col-md-6">
+                        <h3 class="fw-bold text-center">👨‍🍳 Préparation</h3>
+                        <ol class="list-group list-group-numbered">
+                            <li class="list-group-item">{{ recipe.steps }}</li>
+                        </ol>
+                    </div>
+
+                </div>
+
+                <!-- Pied de page -->
+                <div class="text-center mt-4">
+                    <a href="{% url 'my_recipes' %}" class="btn btn-primary">Retour à mes recettes</a>
+                </div>
+
             </div>
         </div>
     </div>
 </div>
-
 {% endblock %}
