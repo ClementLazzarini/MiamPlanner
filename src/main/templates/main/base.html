@@ -25,6 +25,9 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto">
+                        <li class="nav-item">
+                            <a class="nav-link text-warning" href="{% url 'planner:generate_week_plan' %}">Planner</a>
+                        </li>
                     {% if user.is_authenticated %}
                         <li class="nav-item">
                             <span class="nav-link">Bonjour, {{ user.email }}</span>

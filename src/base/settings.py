@@ -58,7 +58,7 @@ AUTHENTICATION_BACKENDS = (
 )
 
 # A modifier en récupérant l'indice indiqué dans la table
-SITE_ID = 2
+SITE_ID = 3
 
 SOCIALACCOUNT_PROVIDERS = {
     'google': {

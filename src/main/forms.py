@@ -14,7 +14,7 @@ class RecipeForm(forms.ModelForm):
             'cooking_time',
             'servings',
             'seasons',
-            'is_easy',
+            'tags',
             'steps',
             'utensils',
             'is_private',
@@ -31,7 +31,7 @@ class RecipeForm(forms.ModelForm):
             'is_veggie': 'Plat végétarien',
             'servings': 'Nombre de portions',
             'seasons': 'Saisons',
-            'is_easy': 'Recette facile',
+            'tags': 'Tags',
             'is_private': 'Recette privée',
             'steps': 'Étapes',
             'utensils': 'Ustensiles nécessaires',
@@ -39,10 +39,10 @@ class RecipeForm(forms.ModelForm):
         }
         widgets = {
             'category': forms.Select(attrs={'class': 'form-select'}),
-            'is_easy': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
             'is_private': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
             'is_veggie': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
             'seasons': forms.SelectMultiple(attrs={'class': 'form-select'}),
+            'tags': forms.SelectMultiple(attrs={'class': 'form-select'}),
         }
 
     def __init__(self, *args, **kwargs):

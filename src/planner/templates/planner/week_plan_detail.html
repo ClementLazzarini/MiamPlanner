@@ -1,0 +1,43 @@
+{% extends 'main/base.html' %}
+
+{% block title %}Page de planner{% endblock %}
+{% block description %}Testdescription{% endblock %}
+{% block javascript %}
+
+{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2>Planning de la semaine du {{ week_plan.start_date|date:"d/m/Y" }}</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Jour</th>
+        <th>Midi</th>
+        <th>Soir</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for day in day_plans %}
+      <tr>
+        <td>{{ day.date|date:"l d/m" }}</td>
+        <td>
+          {% if day.lunch %}
+            {{ day.lunch.name }}
+          {% else %}
+            Pas de proposition
+          {% endif %}
+        </td>
+        <td>
+          {% if day.dinner %}
+            {{ day.dinner.name }}
+          {% else %}
+            Pas de proposition
+          {% endif %}
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}

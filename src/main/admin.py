@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Ingredient, Recipe, Season
+from .models import Ingredient, Recipe, Season, Tag
 
 
 @admin.register(Ingredient)
@@ -18,12 +18,12 @@ class IngredientAdmin(admin.ModelAdmin):
 
 @admin.register(Recipe)
 class RecipeAdmin(admin.ModelAdmin):
-    list_display = ('name', 'creator', 'cooking_time', 'is_veggie', 'is_easy', 'rating', 'is_private', 'created_at')
-    list_filter = ('is_veggie', 'is_easy', 'is_private', 'seasons', 'rating')
+    list_display = ('name', 'creator', 'cooking_time', 'is_veggie', 'rating', 'is_private', 'created_at')
+    list_filter = ('is_veggie', 'is_private', 'seasons', 'rating')
     search_fields = ('name', 'creator__email', 'creator__username')
     autocomplete_fields = ('ingredients', 'creator', 'seasons')  # Facilite la recherche dans les champs liés
     readonly_fields = ('created_at', 'updated_at')  # Pour éviter de modifier les champs de date
-    filter_horizontal = ('ingredients',)  # Améliore l'interface pour les relations ManyToMany
+    filter_horizontal = ('ingredients', 'tags',)  # Améliore l'interface pour les relations ManyToMany
 
     fieldsets = (
         ('Informations Générale', {
@@ -45,3 +45,8 @@ class RecipeAdmin(admin.ModelAdmin):
 class SeasonAdmin(admin.ModelAdmin):
     list_display = ('name',)
     search_fields = ('name',)
+
+
+@admin.register(Tag)
+class TagAdmin(admin.ModelAdmin):
+    list_display = ("name",)

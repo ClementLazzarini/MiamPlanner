@@ -34,6 +34,12 @@ class Ingredient(models.Model):
     def __str__(self):
         return self.name
 
+class Tag(models.Model):
+    name = models.CharField(max_length=50, unique=True)
+
+    def __str__(self):
+        return self.name
+
 
 class Recipe(models.Model):
     # Identifiant unique pour lier la recette à une BDD générale
@@ -61,18 +67,17 @@ class Recipe(models.Model):
             MaxValueValidator(5)
         ]
     )
+    tags = models.ManyToManyField(Tag, related_name="recipes", blank=True)
     preparation_time = models.PositiveIntegerField(help_text="Temps de cuisson en minutes", default=0)
     cooking_time = models.PositiveIntegerField(help_text="Temps de cuisson en minutes", default=0)
     is_veggie = models.BooleanField(default=False)
     servings = models.PositiveIntegerField()
-    # Gestion de plusieurs saisons
     seasons = models.ManyToManyField(
         'Season',
         related_name="recipes",
         blank=True,
         help_text="Saisons associées à la recette"
     )
-    is_easy = models.BooleanField(default=False)
     steps = models.TextField(default="False")
     utensils = models.TextField()
     rating = models.PositiveSmallIntegerField(
