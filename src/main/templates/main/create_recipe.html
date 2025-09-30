@@ -13,6 +13,25 @@
         <form method="post" enctype="multipart/form-data">
             {% csrf_token %}
             {{ form.as_p }}
+            <input
+                type="text"
+                name="q"
+                id="ingredient-search"
+                class="form-control"
+                placeholder="Rechercher un ingrédient..."
+                hx-get="{% url 'search_ingredients' %}"
+                hx-trigger="keyup changed delay:300ms"
+                hx-target="#ingredient-results"
+                hx-indicator="#loading-spinner"
+            />
+
+            <div id="loading-spinner" class="htmx-indicator">Chargement...</div>
+
+            <div id="ingredient-results"></div>
+
+            <ul id="selected-ingredients" class="list-group mt-2">
+                <!-- Les ingrédients sélectionnés seront ajoutés ici -->
+            </ul>
             <button type="submit" class="btn btn-primary w-100 mt-3">{% if recipe %}Mettre à jour{% else %}Créer{% endif %}</button>
         </form>
     </div>

@@ -27,7 +27,7 @@ class RecipeAdmin(admin.ModelAdmin):
 
     fieldsets = (
         ('Informations Générale', {
-            'fields': ('name', 'category', 'image', 'creator', 'cooking_time', 'servings', 'is_veggie', 'is_easy', 'rating', 'is_private')
+            'fields': ('name', 'category', 'image', 'creator', 'cooking_time', 'servings', 'is_veggie', 'rating', 'is_private')
         }),
         ("Saisonnalité et Ingrédients", {
             'fields': ('seasons', 'ingredients')

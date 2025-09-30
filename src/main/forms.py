@@ -18,7 +18,6 @@ class RecipeForm(forms.ModelForm):
             'steps',
             'utensils',
             'is_private',
-            'ingredients',
             'is_veggie',
         ]
         labels = {
@@ -35,7 +34,6 @@ class RecipeForm(forms.ModelForm):
             'is_private': 'Recette privée',
             'steps': 'Étapes',
             'utensils': 'Ustensiles nécessaires',
-            'ingredients': 'Ingrédients',
         }
         widgets = {
             'category': forms.Select(attrs={'class': 'form-select'}),
@@ -61,7 +59,6 @@ class RecipeForm(forms.ModelForm):
             'servings': 'form-control',
             'steps': 'form-control',
             'utensils': 'form-control',
-            'ingredients': 'form-control',
         }
 
         for field, css_class in field_classes.items():
@@ -74,5 +71,5 @@ class RecipeForm(forms.ModelForm):
         self.fields['servings'].widget.attrs.update({'placeholder': 'Ex: 4 personnes'})
         self.fields['steps'].widget.attrs.update({'placeholder': 'Décrivez les étapes ici...', 'rows': 5})
         self.fields['utensils'].widget.attrs.update({'placeholder': 'Listez les ustensiles nécessaires'})
-        self.fields['ingredients'].widget.attrs.update({'placeholder': 'Listez les ingrédients...', 'rows': 4})
+
 

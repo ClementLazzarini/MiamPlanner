@@ -16,7 +16,11 @@
 
                 <!-- Image de la recette -->
                 <div class="text-center">
-                    <img src="{{ recipe.image.url }}" alt="{{ recipe.name }}" class="img-fluid rounded shadow-sm">
+                    {% if recipe.image %}
+                        <img src="{{ recipe.image.url }}" alt="{{ recipe.name }}" class="img-fluid rounded shadow-sm">
+                    {% else %}
+                        <p>Aucune image disponible</p>
+                    {% endif %}
                 </div>
 
                 <!-- Informations principales -->
