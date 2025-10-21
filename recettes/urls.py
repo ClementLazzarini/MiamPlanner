@@ -17,6 +17,6 @@ urlpatterns = [
     # D (Delete) - La page pour supprimer une recette
     path('recette/<int:pk>/supprimer/', views.RecetteDeleteView.as_view(), name='recette_supprimer'),
 
-    # Garde ton générateur si tu veux
-    #path('generateur/', views.generateur_menu, name='generateur'),
+    # Générateur de menus
+    path('generateur/', views.GenerateurMenuView.as_view(), name='generateur'),
 ]

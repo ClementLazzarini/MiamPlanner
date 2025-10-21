@@ -7,6 +7,15 @@
 <body>
     <h1>{{ object.nom }}</h1>
 
+    {% if object.lien_source %}
+        <p>
+            <strong>Source :</strong> 
+            <a href="{{ object.lien_source }}" target="_blank">
+                Voir la recette originale
+            </a>
+        </p>
+    {% endif %}
+
     <p><strong>Préparation :</strong> {{ object.temps_preparation }} min</p>
     <p><strong>Cuisson :</strong> {{ object.temps_cuisson }} min</p>
 

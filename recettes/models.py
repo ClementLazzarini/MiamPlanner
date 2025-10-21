@@ -23,6 +23,8 @@ class Recette(models.Model):
     
     tags = models.ManyToManyField(Tag, blank=True)
 
+    lien_source = models.URLField(max_length=500, blank=True, null=True, help_text="Lien vers la recette (Instagram, blog...)")
+
     def __str__(self):
         return self.nom
 

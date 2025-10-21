@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Générateur de Menu</title>
+    <style>
+        /* Un peu de style pour que ce soit lisible */
+        fieldset { margin-bottom: 10px; border: 1px solid #ccc; }
+        legend { font-weight: bold; }
+        .tags-list label { margin-right: 15px; }
+    </style>
+</head>
+<body>
+    <h1>Générer mon menu</h1>
+    
+    <nav>
+        <a href="{% url 'recette_list' %}">Voir toutes mes recettes</a>
+    </nav>
+    <hr>
+
+    <form method="POST" action="{% url 'generateur' %}">
+        {% csrf_token %}
+        {% for jour_nom in jours_liste %}
+            {% for repas_nom in repas_liste %}
+                
+                {% with repas_id=jour_nom|lower|add:"_"|add:repas_nom|lower %}
+                
+                <fieldset>
+                    <legend>{{ jour_nom }} {{ repas_nom }}</legend>
+                    
+                    <input type="checkbox" name="{{ repas_id }}_idee" id="{{ repas_id }}_idee">
+                    <label for="{{ repas_id }}_idee">J'ai besoin d'une idée</label>
+                    <br><br>
+                    
+                    <div class="tags-list">
+                        <strong>Filtres :</strong>
+                        {% for tag in tous_les_tags %}
+                        <input type="checkbox" 
+                            name="{{ repas_id }}_tags" 
+                            value="{{ tag.nom }}" 
+                            id="{{ repas_id }}_tag_{{ tag.pk }}">
+                        <label for="{{ repas_id }}_tag_{{ tag.pk }}">{{ tag.nom }}</label>
+                        {% endfor %}
+                    </div>
+                </fieldset>
+                
+                {% endwith %}
+            {% endfor %}
+        {% endfor %}
+        <br>
+        <button type="submit">Générer !</button>
+    </form>
+
+    <hr>
+
+    {% if menu_genere %}
+        <h2>Voici votre menu :</h2>
+    
+        {% for repas_id, data in menu_genere.items %}
+            <p>
+                <strong>{{ repas_id }} :</strong> 
+                
+                {% if data.recette %}
+                    <a href="{% url 'recette_detail' pk=data.recette.pk %}">
+                        {{ data.recette.nom }}
+                    </a>
+                
+                {% else %}
+                    <em style="color: red;">
+                        (Aucune recette trouvée
+                        
+                        {% if data.tags_filtres %}
+                            qui est : 
+                            
+                            {% for tag in data.tags_filtres %}
+                                {{ tag }}{% if not forloop.last %}, {% endif %}
+                            {% endfor %}
+                        {% endif %}
+                        )
+                    </em>
+                {% endif %}
+            </p>
+        {% endfor %}
+    {% endif %}
+
+</body>
+</html>
