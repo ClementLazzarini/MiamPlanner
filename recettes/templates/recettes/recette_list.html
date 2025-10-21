@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Mes Recettes</title>
+    </head>
+<body>
+
+    <h1>Mes Recettes</h1>
+
+    <a href="{% url 'recette_creer' %}">Ajouter une nouvelle recette</a>
+
+    <hr>
+
+    <ul>
+        {% for recette in object_list %} <li>
+                <h2>
+                    <a href="{% url 'recette_detail' pk=recette.pk %}">
+                        {{ recette.nom }}
+                    </a>
+                </h2>
+                
+                <p>Temps total : {{ recette.temps_total }} minutes</p>
+                
+                <a href="{% url 'recette_modifier' pk=recette.pk %}">Modifier</a>
+                |
+                <a href="{% url 'recette_supprimer' pk=recette.pk %}" style="color:red;">Supprimer</a>
+            </li>
+        {% empty %}
+            <li>Tu n'as pas encore ajouté de recette !</li>
+        {% endfor %}
+    </ul>
+
+</body>
+</html>
