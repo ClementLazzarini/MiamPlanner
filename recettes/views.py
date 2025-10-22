@@ -1,8 +1,9 @@
-from django.urls import reverse_lazy
+from django.urls import reverse_lazy, reverse
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView, View
 from .models import Recette, Tag
 from .forms import RecetteForm
 from django.shortcuts import render
+from django.utils import timezone
 
 # --- Le CRUD ---
 
@@ -41,6 +42,19 @@ class RecetteDeleteView(DeleteView):
 
 
 # --- Le Générateur de Menu ---
+def get_current_season():
+    """Devine la saison actuelle (pour l'hémisphère nord)."""
+    now = timezone.now()
+    month = now.month
+    
+    if month in (12, 1, 2):
+        return 'Hiver'
+    elif month in (3, 4, 5):
+        return 'Printemps'
+    elif month in (6, 7, 8):
+        return 'Été'
+    else:  # 9, 10, 11
+        return 'Automne'
 
 # Fonction principale du générateur de recettes
 def get_random_recipe(criteres):
@@ -54,8 +68,6 @@ def get_random_recipe(criteres):
     if criteres.get('tags'):
         tags_a_filtrer = criteres['tags']
         
-        # On enchaîne les .filter() pour chaque tag demandé
-        # C'est un "ET" logique (rapide ET été)
         for tag_nom in tags_a_filtrer:
             queryset = queryset.filter(tags__nom__iexact=tag_nom)
             
@@ -70,15 +82,19 @@ class GenerateurMenuView(View):
     # On définit les listes ici pour les réutiliser
     JOURS_LISTE = ['Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi', 'Dimanche']
     REPAS_LISTE = ['Midi', 'Soir']
+    TAGS_SAISON = ['Hiver', 'Printemps', 'Été', 'Automne']
 
     def get(self, request):
         tous_les_tags = Tag.objects.all()
+
+        saison_actuelle = get_current_season()
         
         contexte = {
-            'menu_genere': {},
             'tous_les_tags': tous_les_tags,
-            'jours_liste': self.JOURS_LISTE,  # <-- On envoie la liste
-            'repas_liste': self.REPAS_LISTE   # <-- On envoie la liste
+            'jours_liste': self.JOURS_LISTE,
+            'repas_liste': self.REPAS_LISTE, 
+            'tags_saison_lower': [tag.lower() for tag in self.TAGS_SAISON],
+            'saison_actuelle_lower': saison_actuelle.lower()
         }
         return render(request, self.template_name, contexte)
     
@@ -86,8 +102,8 @@ class GenerateurMenuView(View):
         tous_les_tags = Tag.objects.all()
         menu_genere = {}
         
-        # On génère la liste des ID (ex: 'lundi_midi') dynamiquement !
         repas_semaine = []
+        menu_simple_json = {}
         for jour in self.JOURS_LISTE:
             for repas in self.REPAS_LISTE:
                 repas_semaine.append(f"{jour.lower()}_{repas.lower()}")
@@ -106,11 +122,40 @@ class GenerateurMenuView(View):
                     'recette': recette,
                     'tags_filtres': tags_coches
                 }
+                nom_propre = repas_id.replace('_', ' ').title()
+                data = menu_genere.get(nom_propre, {}) # On récupère les données
+                recette = data.get('recette')
+                
+                if recette:
+                    # Si on a une recette, on stocke son nom et son URL
+                    menu_simple_json[nom_propre] = {
+                        'nom': recette.nom,
+                        'url': reverse('recette_detail', kwargs={'pk': recette.pk})
+                    }
+                elif f'{repas_id}_idee' in request.POST:
+                    # Si on a demandé une idée mais qu'on n'a rien trouvé
+                    menu_simple_json[nom_propre] = {
+                        'nom': f"(Aucune recette trouvée {data.get('tags_filtres', '')})",
+                        'url': None
+                    }
+                else:
+                    # Si on n'a pas demandé d'idée
+                    menu_simple_json[nom_propre] = None
         
+        saison_actuelle = get_current_season()
+
         contexte = {
             'menu_genere': menu_genere,
             'tous_les_tags': tous_les_tags,
-            'jours_liste': self.JOURS_LISTE, # <-- On les renvoie aussi
-            'repas_liste': self.REPAS_LISTE
+            'jours_liste': self.JOURS_LISTE,
+            'repas_liste': self.REPAS_LISTE,
+            'tags_saison_lower': [tag.lower() for tag in self.TAGS_SAISON],
+            'saison_actuelle_lower': saison_actuelle.lower(),
+            'menu_simple_json': menu_simple_json
         }
         return render(request, self.template_name, contexte)
+
+
+def mon_menu_view(request):
+    """Affiche la page qui lira le menu depuis le localStorage."""
+    return render(request, 'recettes/mon_menu.html')

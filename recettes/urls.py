@@ -19,4 +19,7 @@ urlpatterns = [
 
     # Générateur de menus
     path('generateur/', views.GenerateurMenuView.as_view(), name='generateur'),
+
+    # Mon menu personnalisé
+    path('mon-menu/', views.mon_menu_view, name='mon_menu'),
 ]

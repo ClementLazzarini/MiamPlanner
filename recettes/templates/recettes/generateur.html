@@ -11,10 +11,15 @@
     </style>
 </head>
 <body>
+    {{ tags_saison_lower|json_script:"season-tags-data" }}
+    {% if menu_simple_json %}
+        {{ menu_simple_json|json_script:"menu-data-to-save" }}
+    {% endif %}
     <h1>Générer mon menu</h1>
     
     <nav>
         <a href="{% url 'recette_list' %}">Voir toutes mes recettes</a>
+        <a href="{% url 'mon_menu' %}">Voir mon menu actuel</a>
     </nav>
     <hr>
 
@@ -38,7 +43,10 @@
                         <input type="checkbox" 
                             name="{{ repas_id }}_tags" 
                             value="{{ tag.nom }}" 
-                            id="{{ repas_id }}_tag_{{ tag.pk }}">
+                            id="{{ repas_id }}_tag_{{ tag.pk }}"
+                            {% if tag.nom|lower in tags_saison_lower and tag.nom|lower == saison_actuelle_lower %}
+                                checked
+                            {% endif %}>
                         <label for="{{ repas_id }}_tag_{{ tag.pk }}">{{ tag.nom }}</label>
                         {% endfor %}
                     </div>
@@ -52,36 +60,95 @@
     </form>
 
     <hr>
-
-    {% if menu_genere %}
-        <h2>Voici votre menu :</h2>
     
-        {% for repas_id, data in menu_genere.items %}
-            <p>
-                <strong>{{ repas_id }} :</strong> 
-                
-                {% if data.recette %}
-                    <a href="{% url 'recette_detail' pk=data.recette.pk %}">
-                        {{ data.recette.nom }}
-                    </a>
-                
-                {% else %}
-                    <em style="color: red;">
-                        (Aucune recette trouvée
-                        
-                        {% if data.tags_filtres %}
-                            qui est : 
-                            
-                            {% for tag in data.tags_filtres %}
-                                {{ tag }}{% if not forloop.last %}, {% endif %}
-                            {% endfor %}
-                        {% endif %}
-                        )
-                    </em>
-                {% endif %}
-            </p>
-        {% endfor %}
-    {% endif %}
+    <script>
+        // On récupère la liste des tags de saison (en minuscules)
+        const seasonTags = JSON.parse(document.getElementById('season-tags-data').textContent);
 
+        // --- 1. FONCTION POUR SAUVEGARDER LES "IDÉES" ---
+        function savePreferences() {
+            const inputs = document.querySelectorAll('input[id$="_idee"]');
+            inputs.forEach(input => {
+                localStorage.setItem(input.id, input.checked);
+            });
+        }
+
+        // --- 2. FONCTION POUR CHARGER LES "IDÉES" ---
+        function loadPreferences() {
+            const inputs = document.querySelectorAll('input[id$="_idee"]');
+            inputs.forEach(input => {
+                const savedValue = localStorage.getItem(input.id);
+                if (savedValue !== null) {
+                    input.checked = (savedValue === 'true');
+                }
+            });
+        }
+
+        function initSeasonTagLogic() {
+            // On sélectionne TOUTES les checkboxes de tags
+            const allTagCheckboxes = document.querySelectorAll('input[name$="_tags"]');
+
+            allTagCheckboxes.forEach(checkbox => {
+            checkbox.addEventListener('change', (e) => {
+            const clickedCheckbox = e.target;
+            const clickedTag = clickedCheckbox.value.toLowerCase();
+
+            // Si la case cochée n'est PAS une saison, on ne fait rien
+            if (!seasonTags.includes(clickedTag)) {
+                return;
+            }
+
+            // Si on a coché une saison, on trouve son "groupe"
+            // (ex: 'lundi_midi_tags')
+            const groupName = clickedCheckbox.name;
+
+            // On récupère toutes les autres cases du MÊME groupe
+            document.querySelectorAll(`input[name="${groupName}"]`).forEach(siblingCheckbox => {
+                // On ne touche pas à la case qu'on vient de cliquer
+                if (siblingCheckbox === clickedCheckbox) {
+                    return;
+                }
+
+                // Si une autre case du groupe est aussi une saison...
+                const siblingTag = siblingCheckbox.value.toLowerCase();
+                if (seasonTags.includes(siblingTag)) {
+                    // ... on la DÉCOCHE !
+                    siblingCheckbox.checked = false;
+                }
+            });
+            });
+            });
+        }
+
+        // --- 4. ON LANCE TOUT AU CHARGEMENT ---
+        document.addEventListener('DOMContentLoaded', (event) => {
+
+            const menuDataElement = document.getElementById('menu-data-to-save');
+            if (menuDataElement) {
+                // On a généré un menu, on le sauvegarde !
+                const menuData = JSON.parse(menuDataElement.textContent);
+                localStorage.setItem('savedMenu', JSON.stringify(menuData));
+                window.location.href = "{% url 'mon_menu' %}";
+            } else {
+                // --- ON NE LANCE LE RESTE QUE SI ON NE REDIRIGE PAS ---
+                
+                // Charge les préférences des cases "Idée"
+                loadPreferences();
+                
+                // Active la logique "radio" pour les tags de saison
+                initSeasonTagLogic(); 
+
+                // Met en place la sauvegarde des cases "Idée"
+                const form = document.querySelector('form');
+                form.addEventListener('change', (e) => {
+                    // On ne sauvegarde que si on a changé une case "Idée"
+                    if (e.target.id.endsWith('_idee')) {
+                        savePreferences();
+                    }
+                });
+            }
+        });
+        
+    </script>
 </body>
 </html>
