@@ -1,17 +1,18 @@
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <title>Mes Recettes</title>
-    </head>
-<body>
+{% extends "base.html" %}
 
-    <h1>Mes Recettes</h1>
+{% block content %}
+
+    <h1 class="text-3xl font-bold text-blue-600 underline">Mes Recettes</h1>
 
     <a href="{% url 'recette_creer' %}">Ajouter une nouvelle recette</a>
     <a href="{% url 'generateur' %}">Générateur de menu</a>
 
     <hr>
+
+
+    <div class="mt-6 p-4 bg-white shadow-md rounded-lg">
+        <p>Si ce texte a un fond blanc et une ombre, c'est que Tailwind fonctionne !</p>
+    </div>
 
     <ul>
         {% for recette in object_list %} <li>
@@ -32,5 +33,4 @@
         {% endfor %}
     </ul>
 
-</body>
-</html>
+{% endblock %}
