@@ -8,3 +8,27 @@
   * the scope of this path.
   */
 @source "../../../**/*.{html,py,js}";
+
+
+
+@layer base {
+  html{
+    scroll-behavior: smooth;
+  }
+}
+
+@layer components {
+  .btn {
+    @apply px-4 py-2 text-white rounded font-semibold transition-colors duration-300;
+  }
+
+  .btn-add {
+
+    @apply bg-green-600 hover:bg-green-800;
+  }
+
+  .btn-generate {
+
+    @apply bg-blue-900 hover:bg-blue-600;
+  }
+}

@@ -4,20 +4,15 @@
 
     <h1 class="text-3xl font-bold text-blue-600 underline">Mes Recettes</h1>
 
-    <a href="{% url 'recette_creer' %}">Ajouter une nouvelle recette</a>
+    <a href="{% url 'recette_creer' %}" class="btn btn-add">Ajouter une nouvelle recette</a>
     <a href="{% url 'generateur' %}">Générateur de menu</a>
 
     <hr>
 
-
-    <div class="mt-6 p-4 bg-white shadow-md rounded-lg">
-        <p>Si ce texte a un fond blanc et une ombre, c'est que Tailwind fonctionne !</p>
-    </div>
-
-    <ul>
-        {% for recette in object_list %} <li>
-                <h2>
-                    <a href="{% url 'recette_detail' pk=recette.pk %}">
+    <ul class="grid grid-cols-1 mt-4 md:grid-cols-3 lg:grid-cols-4 gap-6">
+        {% for recette in object_list %} <li class="bg-white p-4 rounded-lg shadow-md h-50">
+                <h2 class="text-xl font-semibold text-blue-600 hover:underline text-center">
+                    <a href="{% url 'recette_detail' pk=recette.pk %}" >
                         {{ recette.nom }}
                     </a>
                 </h2>
