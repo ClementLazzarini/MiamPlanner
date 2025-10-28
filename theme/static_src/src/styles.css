@@ -19,16 +19,16 @@
 
 @layer components {
   .btn {
-    @apply px-4 py-2 text-white rounded font-semibold transition-colors duration-300;
+    @apply px-4 py-2 text-white  font-semibold transition-colors duration-300;
   }
 
   .btn-add {
 
-    @apply bg-green-600 hover:bg-green-800;
+    @apply bg-green-600 hover:bg-green-800 rounded-full p-8;
   }
 
   .btn-generate {
 
-    @apply bg-blue-900 hover:bg-blue-600;
+    @apply bg-blue-900 hover:bg-blue-600 rounded;
   }
 }

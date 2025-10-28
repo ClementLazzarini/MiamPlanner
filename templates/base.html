@@ -8,21 +8,28 @@
     
     {% tailwind_css %} 
 </head>
-<body class="bg-gray-100">
-    <nav>
-        <div class="container mx-auto p-4 bg-white shadow-md flex justify-between items-center wfull">
-            <a href="{% url 'recette_list' %}" class="text-xl font-bold text-blue-600">MiamPlanner</a>
-            <div class="float-right">
-                <a href="{% url 'recette_list' %}" class="p-2 mr-4 bg-blue-900 text-white">Mes Recettes</a>
-                <a href="{% url 'generateur' %}" class="btn btn-generate">Générateur de menu</a>
-            </div>
-        </div>
-    </nav>
-
-    <main class="container mx-auto p-4">
+<body class="bg-gray-100 font-sans antialiased flex flex-col min-h-screen">
+    <header class="bg-blue-400 p-4 text-white text-center text-2xl font-semibold shadow-md">
+        <a href="{% url 'recette_list' %}">MiamPlanner</a>
+    </header>
+    <main class="container flex-grow p-4 space-y-4 overflow-y-auto">
         {% block content %}
         {% endblock %}
     </main>
+
+    <nav class="fixed bottom-0 w-full bg-gray-800 text-white p-2 flex justify-around items-center relative z-10 ">
+        <a href="{% url 'recette_list' %}" class="flex flex-col items-center text-sm p-2 rounded hover:bg-gray-700">
+            Mes recettes
+        </a>
+
+        <div class="add-button">
+            <a href="{% url 'recette_creer' %}">+</a>
+        </div>
+
+        <a href="{% url 'generateur' %}" class="flex flex-col items-center text-sm p-2 rounded hover:bg-gray-700">
+            Générateur
+        </a>
+    </nav>
 
 </body>
 </html>

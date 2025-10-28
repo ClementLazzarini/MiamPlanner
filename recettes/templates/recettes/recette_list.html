@@ -2,30 +2,28 @@
 
 {% block content %}
 
-    <h1 class="text-3xl font-bold text-blue-600 underline">Mes Recettes</h1>
+    <h1 class="font-bold text-blue-600 text-xl">Mes recettes</h1>
 
-    <a href="{% url 'recette_creer' %}" class="btn btn-add">Ajouter une nouvelle recette</a>
-    <a href="{% url 'generateur' %}">Générateur de menu</a>
-
-    <hr>
-
-    <ul class="grid grid-cols-1 mt-4 md:grid-cols-3 lg:grid-cols-4 gap-6">
-        {% for recette in object_list %} <li class="bg-white p-4 rounded-lg shadow-md h-50">
-                <h2 class="text-xl font-semibold text-blue-600 hover:underline text-center">
-                    <a href="{% url 'recette_detail' pk=recette.pk %}" >
+    <section class="grid grid-cols-1 mt-4 md:grid-cols-3 lg:grid-cols-4 gap-6">
+        {% for recette in object_list %} 
+        <div class="bg-white rounded-lg shadow-md p-4">
+            <h3 class="text-xl font-semibold mb-2">     
+                <a href="{% url 'recette_detail' pk=recette.pk %}" >
                         {{ recette.nom }}
-                    </a>
-                </h2>
-                
-                <p>Temps total : {{ recette.temps_total }} minutes</p>
-                
-                <a href="{% url 'recette_modifier' pk=recette.pk %}">Modifier</a>
-                |
-                <a href="{% url 'recette_supprimer' pk=recette.pk %}" style="color:red;">Supprimer</a>
-            </li>
+                </a>
+            </h3>
+            <p class="text-gray-600 text-sm mb-2">Préparation : {{ recette.temps_preparation }} min | Cuisson : {{ recette.temps_cuisson }}min</p>
+            <p class="text-gray-700 text-sm">Ingrédients : Poulet, Thym, Romarin, Citron, Ail</p>
+            <div class="mt-4 flex justify-end space-x-2">
+                <a href="{% url 'recette_modifier' pk=recette.pk %}" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-1 px-3 rounded text-sm">Modifier</a>
+                <a href="{% url 'recette_supprimer' pk=recette.pk %}" class="bg-red-500 hover:bg-red-600 text-white font-bold py-1 px-3 rounded text-sm">Supprimer</a>
+            </div>
+        </div>
         {% empty %}
-            <li>Tu n'as pas encore ajouté de recette !</li>
+        <h2>Tu n'as pas encore ajouté de recette !</h2>
         {% endfor %}
-    </ul>
+    </section>
+
+    
 
 {% endblock %}
