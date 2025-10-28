@@ -12,21 +12,19 @@
     <header class="bg-blue-400 p-4 text-white text-center text-2xl font-semibold shadow-md">
         <a href="{% url 'recette_list' %}">MiamPlanner</a>
     </header>
-    <main class="container flex-grow p-4 space-y-4 overflow-y-auto">
+    <main class="flex flex-col items-center flex-grow p-4 space-y-4 overflow-y-auto">
         {% block content %}
         {% endblock %}
     </main>
 
-    <nav class="fixed bottom-0 w-full bg-gray-800 text-white p-2 flex justify-around items-center relative z-10 ">
+    <nav class="fixed bottom-0 w-full bg-gray-800 text-white p-2 flex justify-around items-center z-10 ">
         <a href="{% url 'recette_list' %}" class="flex flex-col items-center text-sm p-2 rounded hover:bg-gray-700">
             Mes recettes
         </a>
 
-        <div class="add-button">
-            <a href="{% url 'recette_creer' %}">+</a>
-        </div>
+        <a href="{% url 'recette_creer' %}" class="add-button hover:bg-color-white">+</a>
 
-        <a href="{% url 'generateur' %}" class="flex flex-col items-center text-sm p-2 rounded hover:bg-gray-700">
+        <a href="{% url 'generateur' %}" class="flex flex-col items-center text-sm p-2 rounded hover:bg-red-700">
             Générateur
         </a>
     </nav>

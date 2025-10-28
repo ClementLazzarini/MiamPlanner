@@ -19,16 +19,31 @@
 
 @layer components {
   .btn {
-    @apply px-4 py-2 text-white  font-semibold transition-colors duration-300;
+    @apply px-4 py-2 text-white font-semibold transition-colors duration-300;
   }
 
-  .btn-add {
+  .btn-primary {
 
-    @apply bg-green-600 hover:bg-green-800 rounded-full p-8;
+    @apply bg-green-600 hover:bg-green-800 rounded p-8;
   }
 
-  .btn-generate {
+  .btn-secondary {
 
     @apply bg-blue-900 hover:bg-blue-600 rounded;
   }
+  .add-button {
+    width: 56px; /* Taille fixe pour le bouton rond */
+    height: 56px;
+    background-color: #22c55e; /* Vert Tailwind 500 */
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    font-size: 2rem; /* Taille du signe plus */
+    line-height: 1; /* Assure que le + est centré verticalement */
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    transition: background-color 0.3s ease;
+  }
 }
+

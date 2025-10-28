@@ -1,24 +1,85 @@
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <title>{% if object %} Modifier la recette : {{ object.nom }}
-        {% else %} Créer une nouvelle recette
-        {% endif %}</title>
-    </head>
-<body>
-    <h1>
-        {% if object %} Modifier la recette : {{ object.nom }}
-        {% else %} Créer une nouvelle recette
+{% extends "base.html" %}
+
+{% block content %}
+    <h1 class="font-bold text-blue-600 text-2xl">
+        {% if object %}
+            Modifier la recette
+        {% else %}
+            Créer une nouvelle recette
         {% endif %}
     </h1>
 
-    <form method="post">
-        {% csrf_token %} {{ form.as_p }} <button type="submit">Enregistrer</button>
+    <form method="post" class="space-y-6 bg-gray-300 p-8 rounded-lg shadow-md mb-20">
+        {% csrf_token %}
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+            <div class="md:col-span-2">
+                <label for="{{ form.nom.id_for_label }}" class="block text-sm font-medium text-gray-800">
+                    Nom de la recette
+                </label>
+                {{ form.nom }} {{ form.nom.errors }} </div>
+
+            <div>
+                <label for="{{ form.temps_preparation.id_for_label }}" class="block text-sm font-medium text-gray-800">
+                    Temps de préparation (min)
+                </label>
+                {{ form.temps_preparation }}
+                {{ form.temps_preparation.errors }}
+            </div>
+
+            <div>
+                <label for="{{ form.temps_cuisson.id_for_label }}" class="block text-sm font-medium text-gray-800">
+                    Temps de cuisson (min)
+                </label>
+                {{ form.temps_cuisson }}
+                {{ form.temps_cuisson.errors }}
+            </div>
+
+            <div class="md:col-span-2">
+                <label for="{{ form.ingredients.id_for_label }}" class="block text-sm font-medium text-gray-800">
+                    Ingrédients
+                </label>
+                {{ form.ingredients }}
+                {{ form.ingredients.errors }}
+            </div>
+
+            <div class="md:col-span-2">
+                <label for="{{ form.etapes.id_for_label }}" class="block text-sm font-medium text-gray-800">
+                    Étapes de préparation
+                </label>
+                {{ form.etapes }}
+                {{ form.etapes.errors }}
+            </div>
+
+            <div class="md:col-span-2">
+                <label for="{{ form.lien_source.id_for_label }}" class="block text-sm font-medium text-gray-800">
+                    Lien source (URL)
+                </label>
+                {{ form.lien_source }}
+                {{ form.lien_source.errors }}
+            </div>
+
+            <div class="md:col-span-2">
+                <label class="block text-sm font-medium text-gray-800">
+                    Tags
+                </label>
+                <div class="mt-2 flex flex-wrap gap-x-4 gap-y-2">
+                    {% for tag_choice in form.tags %}
+                    <div class="flex items-center">
+                        {{ tag_choice.tag }} <label for="{{ tag_choice.id_for_label }}" class="ml-2 text-sm text-gray-600">
+                            {{ tag_choice.choice_label }}
+                        </label>
+                    </div>
+                    {% endfor %}
+                </div>
+                {{ form.tags.errors }}
+            </div>
+
+        </div> <div class="flex justify-end space-x-4">
+            <a href="{% url 'recette_list' %}" class="btn btn-secondary">Annuler</a>
+            <button type="submit" class="btn btn-primary">Enregistrer</button>
+        </div>
     </form>
 
-    <br>
-    <a href="{% url 'recette_list' %}">Annuler</a>
-
-</body>
-</html>
+{% endblock %}

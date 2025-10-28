@@ -1,26 +1,12 @@
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <title>Générateur de Menu</title>
-    <style>
-        /* Un peu de style pour que ce soit lisible */
-        fieldset { margin-bottom: 10px; border: 1px solid #ccc; }
-        legend { font-weight: bold; }
-        .tags-list label { margin-right: 15px; }
-    </style>
-</head>
-<body>
+{% extends "base.html" %}
+
+{% block content %}
     {{ tags_saison_lower|json_script:"season-tags-data" }}
     {% if menu_simple_json %}
         {{ menu_simple_json|json_script:"menu-data-to-save" }}
     {% endif %}
-    <h1>Générer mon menu</h1>
-    
-    <nav>
-        <a href="{% url 'recette_list' %}">Voir toutes mes recettes</a>
-        <a href="{% url 'mon_menu' %}">Voir mon menu actuel</a>
-    </nav>
+    <h1 class="font-bold text-blue-600 text-2xl">Générer mon menu</h1>
+
     <hr>
 
     <form method="POST" action="{% url 'generateur' %}">
@@ -30,8 +16,8 @@
                 
                 {% with repas_id=jour_nom|lower|add:"_"|add:repas_nom|lower %}
                 
-                <fieldset>
-                    <legend>{{ jour_nom }} {{ repas_nom }}</legend>
+                <fieldset class="border border-gray-300 rounded-md p-4 mb-4 w-full max-w-md bg-white shadow-sm">
+                    <legend class="">{{ jour_nom }} {{ repas_nom }}</legend>
                     
                     <input type="checkbox" name="{{ repas_id }}_idee" id="{{ repas_id }}_idee">
                     <label for="{{ repas_id }}_idee">J'ai besoin d'une idée</label>
@@ -56,7 +42,7 @@
             {% endfor %}
         {% endfor %}
         <br>
-        <button type="submit">Générer !</button>
+        <button type="submit" class="bg-red-800 p-30">Générer !</button>
     </form>
 
     <hr>
@@ -150,5 +136,4 @@
         });
         
     </script>
-</body>
-</html>
+ {% endblock %}
