@@ -1,19 +1,10 @@
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-    <meta charset="UTF-g">
-    <title>Mon Menu</title>
-    </head>
-<body>
-    <h1>Mon Menu de la Semaine</h1>
-    <nav>
-        <a href="{% url 'generateur' %}">Retour au Générateur</a>
-        |
-        <a href="{% url 'recette_list' %}">Voir toutes mes recettes</a>
-    </nav>
-    <hr>
+{% extends "base.html" %}
 
-    <div id="menu-container">
+{% block content %}
+    <h1 class="font-bold text-blue-600 text-2xl">Mon Menu de la Semaine</h1>
+
+
+    <div id="menu-container" class="flex flex-col justify-center">
         <p>Chargement du menu...</p>
     </div>
 
@@ -28,16 +19,16 @@
             }
 
             const menuData = JSON.parse(savedMenu);
-            let html = '<ul>';
+            let html = '<ul class="w-full p-4">';
 
             // On boucle sur les données du menu
             for (const [repas, data] of Object.entries(menuData)) {
                 if (data) {
-                    html += `<li><strong>${repas} :</strong> `;
+                    html += `<li class="pl-4 mb-4 w-full bg-white rounded shadow-md flex justify-between items-center"><strong>${repas} :</strong> `;
 
                     if (data.url) {
                         // C'est une recette
-                        html += `<a href="${data.url}">${data.nom}</a>`;
+                        html += `<a href="${data.url}" class="bg-green-600 p-4 rounded text-white font-bold w-1/2 text-center hover:bg-green-600">${data.nom}</a>`;
                     } else {
                         // C'est un message (ex: "Aucune recette")
                         html += `<em style="color: red;">${data.nom}</em>`;
@@ -52,5 +43,4 @@
             container.innerHTML = html;
         });
     </script>
-</body>
-</html>
+{% endblock %}

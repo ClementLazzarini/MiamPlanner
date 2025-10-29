@@ -1,40 +1,68 @@
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <title>{{ object.nom }}</title>
-    </head>
-<body>
-    <h1>{{ object.nom }}</h1>
+{% extends "base.html" %}
 
-    {% if object.lien_source %}
-        <p>
-            <strong>Source :</strong> 
-            <a href="{{ object.lien_source }}" target="_blank">
-                Voir la recette originale
+{% block content %}
+<div class="bg-white rounded-lg shadow-xl overflow-hidden mb-20">
+
+    <div class="bg-white rounded-lg shadow-xl overflow-hidden">
+        
+        <div class="p-6 border-b border-gray-200 bg-gray-50">
+            <h1 class="text-3xl font-bold text-gray-900">{{ object.nom }}</h1>
+        </div>
+
+        <div class="p-6">
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+                <div>
+                    <dt class="text-sm font-medium text-gray-500">Préparation</dt>
+                    <dd class="text-lg font-semibold text-gray-900">{{ object.temps_preparation }} min</dd>
+                </div>
+                <div>
+                    <dt class="text-sm font-medium text-gray-500">Cuisson</dt>
+                    <dd class="text-lg font-semibold text-gray-900">{{ object.temps_cuisson }} min</dd>
+                </div>
+                {% if object.lien_source %}
+                <div>
+                    <dt class="text-sm font-medium text-gray-500">Source</dt>
+                    <dd class="mt-1">
+                        <a href="{{ object.lien_source }}" target="_blank" 
+                           class="text-blue-600 hover:text-blue-800 hover:underline">
+                            Voir la recette originale
+                        </a>
+                    </dd>
+                </div>
+                {% endif %}
+            </div>
+
+            <div class="mt-6">
+                <h3 class="text-xl font-semibold text-gray-800 mb-2">Ingrédients :</h3>
+                <p class="text-gray-700 leading-relaxed">
+                    {{ object.ingredients|linebreaksbr }}
+                </p>
+            </div>
+
+            <div class="mt-6">
+                <h3 class="text-xl font-semibold text-gray-800 mb-2">Étapes :</h3>
+                <p class="text-gray-700 leading-relaxed">
+                    {{ object.etapes|linebreaksbr }}
+                </p>
+            </div>
+
+            <div class="mt-6">
+                <h3 class="text-xl font-semibold text-gray-800 mb-3">Tags :</h3>
+                <div class="flex flex-wrap gap-2">
+                    {% for tag in object.tags.all %}
+                        <span class="bg-gray-200 text-gray-800 text-sm font-medium px-3 py-1 rounded-full">
+                            #{{ tag.nom }}
+                        </span>
+                    {% endfor %}
+                </div>
+            </div>
+
+        </div> <div class="bg-gray-50 px-6 py-4 flex justify-center items-center">
+            <a href="{% url 'recette_modifier' pk=object.pk %}" class="text-white font-bold rounded bg-blue-600 hover:bg-blue-800 px-4 py-2">
+                Modifier cette recette
             </a>
-        </p>
-    {% endif %}
+        </div>
 
-    <p><strong>Préparation :</strong> {{ object.temps_preparation }} min</p>
-    <p><strong>Cuisson :</strong> {{ object.temps_cuisson }} min</p>
-
-    <h3>Ingrédients :</h3>
-    <p>{{ object.ingredients|linebreaksbr }}</p>
-
-    <h3>Étapes :</h3>
-    <p>{{ object.etapes|linebreaksbr }}</p>
-
-    <h3>Tags :</h3>
-    <p>
-        {% for tag in object.tags.all %}
-            <span>#{{ tag.nom }}</span>
-        {% endfor %}
-    </p>
-
-    <hr>
-    <a href="{% url 'recette_list' %}">Retour à la liste</a>
-    |
-    <a href="{% url 'recette_modifier' pk=object.pk %}">Modifier cette recette</a>
-</body>
-</html>
+    </div> </div>
+{% endblock %}
