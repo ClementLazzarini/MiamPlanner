@@ -17,7 +17,7 @@ __pycache__/
 
 # Fichiers de packaging et distribution
 build/
-dist/
+# dist/
 *.egg-info/
 
 # --- Fichiers Django ---
