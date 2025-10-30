@@ -1,0 +1,33 @@
+document.addEventListener('DOMContentLoaded', () => {
+    const container = document.getElementById('menu-container');
+    const savedMenu = localStorage.getItem('savedMenu'); // On lit le menu
+
+    if (!savedMenu) {
+        container.innerHTML = "<p>Aucun menu n'est sauvegardé.</p>";
+        return;
+    }
+
+    const menuData = JSON.parse(savedMenu);
+    let html = '<ul class="w-full p-4">';
+
+    // On boucle sur les données du menu
+    for (const [repas, data] of Object.entries(menuData)) {
+        if (data) {
+            html += `<li class="pl-4 mb-4 w-full bg-white rounded shadow-md flex justify-between items-center"><strong>${repas} :</strong> `;
+
+            if (data.url) {
+                // C'est une recette
+                html += `<a href="${data.url}" class="bg-green-600 p-4 rounded text-white font-bold w-1/2 text-center hover:bg-green-600">${data.nom}</a>`;
+            } else {
+                // C'est un message (ex: "Aucune recette")
+                html += `<em style="color: red;">${data.nom}</em>`;
+            }
+            html += '</li>';
+        }
+        // Si data est 'null', on n'affiche rien (l'utilisateur
+        // n'a pas demandé d'idée pour ce repas)
+    }
+
+    html += '</ul>';
+    container.innerHTML = html;
+});
