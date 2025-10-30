@@ -18,10 +18,11 @@
     </main>
 
     <nav class="fixed bottom-0 w-full bg-gray-800 text-white p-2 flex justify-around items-center z-10 ">
+        {% block alternative_menu %}
         <a href="{% url 'recette_list' %}" class="flex flex-col items-center text-sm p-2 rounded hover:bg-gray-700">
             Mes recettes
         </a>
-
+        {% endblock %}
         <a href="{% url 'recette_creer' %}" class="add-button hover:bg-color-white">+</a>
 
         <a href="{% url 'generateur' %}" class="flex flex-col items-center text-sm p-2 rounded hover:bg-red-700">

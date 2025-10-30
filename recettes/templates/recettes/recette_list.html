@@ -23,7 +23,11 @@
         <h2>Tu n'as pas encore ajouté de recette !</h2>
         {% endfor %}
     </section>
+{% endblock %}
 
-    
 
+{% block alternative_menu %}
+<a href="{% url 'mon_menu' %}" class="flex flex-col items-center text-sm p-2 rounded hover:bg-gray-700">
+    Mon menu
+</a>
 {% endblock %}
