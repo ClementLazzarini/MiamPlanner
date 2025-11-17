@@ -6,7 +6,7 @@
     {% if menu_simple_json %}
         {{ menu_simple_json|json_script:"menu-data-to-save" }}
     {% endif %}
-    <h1 class="font-bold text-blue-600 text-2xl mb-4">Générer mon menu</h1>
+    <h1 class="font-bold text-2xl mb-4">Générer mon menu</h1>
 
 
     <form method="POST" action="{% url 'generateur' %}" class="flex flex-col justify-center" data-redirect-url="{% url 'mon_menu' %}">
@@ -42,7 +42,7 @@
             {% endfor %}
         {% endfor %}
         <br>
-        <button type="submit" class="bg-red-600 p-4 text-white font-bold rounded w-1/2 m-auto">Générer !</button>
+        <button type="submit" class="generate-button">Générer !</button>
     </form>
     
 {% endblock %}

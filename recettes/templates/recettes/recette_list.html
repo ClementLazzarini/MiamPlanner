@@ -2,7 +2,7 @@
 
 {% block content %}
 
-    <h1 class="font-bold text-blue-600 text-2xl">Mes recettes</h1>
+    <h1 class="font-bold text-2xl">Mes recettes</h1>
 
     <section class="grid grid-cols-1 mt-4 md:grid-cols-3 lg:grid-cols-4 gap-6">
         {% for recette in object_list %} 
@@ -12,11 +12,12 @@
                         {{ recette.nom }}
                 </a>
             </h3>
+            <!--  Ingrédients : Poulet, Thym, Romarin, Citron, Ail  -->
             <p class="text-gray-600 text-sm mb-2">Préparation : {{ recette.temps_preparation }} min | Cuisson : {{ recette.temps_cuisson }}min</p>
-            <p class="text-gray-700 text-sm">Ingrédients : Poulet, Thym, Romarin, Citron, Ail</p>
+            <p class="text-gray-700 text-sm">{{ recette.ingredients|truncatewords:8 }}</p>
             <div class="mt-4 flex justify-end space-x-2">
-                <a href="{% url 'recette_modifier' pk=recette.pk %}" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-1 px-3 rounded text-sm">Modifier</a>
-                <a href="{% url 'recette_supprimer' pk=recette.pk %}" class="bg-red-500 hover:bg-red-600 text-white font-bold py-1 px-3 rounded text-sm">Supprimer</a>
+                <a href="{% url 'recette_modifier' pk=recette.pk %}" class="modify-button">Modifier</a>
+                <a href="{% url 'recette_supprimer' pk=recette.pk %}" class="delete-button">Supprimer</a>
             </div>
         </div>
         {% empty %}
@@ -27,7 +28,7 @@
 
 
 {% block alternative_menu %}
-<a href="{% url 'mon_menu' %}" class="flex flex-col items-center text-sm p-2 rounded hover:bg-gray-700">
+<a href="{% url 'mon_menu' %}" class="flex flex-col items-center text-sm p-2 rounded font-semibold  hover:bg-gray-700">
     Mon menu
 </a>
 {% endblock %}

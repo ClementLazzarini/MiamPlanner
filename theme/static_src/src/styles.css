@@ -32,9 +32,9 @@
     @apply bg-blue-900 hover:bg-blue-600 rounded;
   }
   .add-button {
-    width: 56px; /* Taille fixe pour le bouton rond */
-    height: 56px;
-    background-color: #22c55e; /* Vert Tailwind 500 */
+    width: 5rem; /* Taille fixe pour le bouton rond */
+    height: 5rem;
+    background-color: #034001; /* Vert Tailwind 500 */
     border-radius: 50%;
     display: flex;
     justify-content: center;
@@ -42,8 +42,30 @@
     color: white;
     font-size: 2rem; /* Taille du signe plus */
     line-height: 1; /* Assure que le + est centré verticalement */
+    text-decoration: none; /* Enlève le soulignement potentiel */
+    padding-bottom: 6px;   /* ASTUCE : Remonte visuellement le + */
+    line-height: 0;
     box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
     transition: background-color 0.3s ease;
+  }
+
+  .nav-color {
+    @apply text-white;
+    background-color: #8EA637;
+  }
+
+  .modify-button {
+    @apply hover:bg-blue-600 text-white font-bold py-1 px-3 rounded text-sm;
+    background-color: #BFAC95;
+  }
+  .delete-button {
+    @apply text-white font-bold py-1 px-3 rounded text-sm;
+    background-color: #59341E;
+  }
+
+  .generate-button {
+    @apply p-4 text-white font-bold rounded w-1/2 m-auto;
+    background-color: #034001;
   }
 }
 

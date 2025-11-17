@@ -9,7 +9,7 @@
     {% tailwind_css %} 
 </head>
 <body class="bg-gray-100 font-sans antialiased flex flex-col min-h-screen">
-    <header class="bg-blue-400 p-4 text-white text-center text-2xl font-semibold shadow-md">
+    <header class="p-4 text-center text-2xl font-semibold shadow-md nav-color">
         <a href="{% url 'recette_list' %}">MiamPlanner</a>
     </header>
     <main class="w-full max-w-5xl mx-auto flex-grow p-4 mb-20">
@@ -17,18 +17,21 @@
         {% endblock %}
     </main>
 
-    <nav class="fixed bottom-0 w-full bg-gray-800 text-white p-2 flex justify-around items-center z-10 ">
-        {% block alternative_menu %}
-        <a href="{% url 'recette_list' %}" class="flex flex-col items-center text-sm p-2 rounded hover:bg-gray-700">
-            Mes recettes
-        </a>
-        {% endblock %}
-        <a href="{% url 'recette_creer' %}" class="add-button hover:bg-color-white">+</a>
+    <nav class="fixed bottom-0 w-full nav-color flex justify-around items-center z-10 h-16">
+    {% block alternative_menu %}
+    <a href="{% url 'recette_list' %}" class="flex flex-col items-center text-sm p-2 rounded font-semibold hover:bg-gray-700">
+        Mes recettes
+    </a>
+    {% endblock %}
 
-        <a href="{% url 'generateur' %}" class="flex flex-col items-center text-sm p-2 rounded hover:bg-red-700">
-            Générateur
-        </a>
-    </nav>
+    <a href="{% url 'recette_creer' %}" class="add-button hover:bg-color-white -mt-6 border-4 border-[#f8f8f8]">
+        +
+    </a>
+
+    <a href="{% url 'generateur' %}" class="flex flex-col items-center text-sm p-2 rounded font-semibold hover:bg-red-700">
+        Générateur
+    </a>
+</nav>
 
     {% block extra_js %}
     {% endblock extra_js %}
